@@ -446,7 +446,7 @@
           <div class="trust-badge">GoI Aligned</div>
         </div>
       </div>
-      <form class="contact-form" onsubmit="handleSubmit(event)">
+      <form class="contact-form" id="briefing-form">
         <div class="form-row">
           <div class="form-group">
             <label for="name">Name</label>
@@ -476,7 +476,8 @@
           <label for="message">Message</label>
           <textarea id="message" rows="4" placeholder="Describe your strategic interest..."></textarea>
         </div>
-        <button type="submit" class="btn-primary btn-full">Request briefing →</button>
+        <button type="submit" class="btn-primary btn-full" id="submit-btn">Request briefing →</button>
+        <p class="form-note" id="form-msg"></p>
       </form>
     </div>
   </section>
@@ -498,6 +499,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
