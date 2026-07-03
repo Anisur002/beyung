@@ -101,7 +101,6 @@ function closeApply() {
 applyForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  // Validate required fields
   const name  = document.getElementById('a-name').value.trim();
   const email = document.getElementById('a-email').value.trim();
   const cover = document.getElementById('a-cover').value.trim();
@@ -122,30 +121,44 @@ applyForm.addEventListener('submit', async (e) => {
   applyFormMsg.textContent = '';
   applyFormMsg.className = 'form-note';
 
-  const formData = new FormData(applyForm);
+  const role = document.getElementById('a-role').value;
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('phone', document.getElementById('a-phone').value || '—');
+  formData.append('experience', document.getElementById('a-experience').value || '—');
+  formData.append('portfolio', document.getElementById('a-portfolio').value || '—');
+  formData.append('message', cover);
+  formData.append('role', role);
+  formData.append('resume', file, file.name);
 
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
+    // Formspree endpoint — replace xwkgpqna with your Formspree form ID
+    // Sign up free at formspree.io → New Form → copy the ID from the endpoint
+    const res = await fetch('https://formspree.io/f/xwkgpqna', {
       method: 'POST',
-      body: formData
+      body: formData,
+      headers: { 'Accept': 'application/json' }
     });
     const data = await res.json();
 
-    if (data.success) {
+    if (res.ok) {
       applySubmitBtn.textContent = 'Application sent ✓';
       applySubmitBtn.style.background = '#059669';
       applyFormMsg.textContent = "We'll review your application and get back to you soon.";
       applyFormMsg.className = 'form-note form-note--success';
       applyForm.reset();
+      fileUploadWrap.classList.remove('has-file');
+      fileUploadText.textContent = 'Click to upload or drag & drop';
       setTimeout(closeApply, 3000);
     } else {
-      throw new Error(data.message || 'Submission failed');
+      throw new Error(data.error || 'Submission failed');
     }
   } catch (err) {
     console.error('Submission error:', err);
     applySubmitBtn.textContent = 'Submit application →';
     applySubmitBtn.disabled = false;
-    applyFormMsg.textContent = 'Something went wrong. Email us at developeranis123@gmail.com';
+    applyFormMsg.textContent = 'Something went wrong. Please email developeranis123@gmail.com directly.';
     applyFormMsg.className = 'form-note form-note--error';
   }
 });
