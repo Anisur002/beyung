@@ -135,7 +135,7 @@ applyForm.addEventListener('submit', async (e) => {
   try {
     // Formspree endpoint — replace xwkgpqna with your Formspree form ID
     // Sign up free at formspree.io → New Form → copy the ID from the endpoint
-    const res = await fetch('https://formspree.io/f/xwkgpqna', {
+    const res = await fetch('https://formspree.io/f/xbdvpwol', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
