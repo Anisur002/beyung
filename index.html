@@ -471,7 +471,7 @@
             <li>Healthcare ML pipelines</li>
             <li>Federated Learning</li>
           </ul>
-          <a href="mailto:developeranis123@gmail.com?subject=Application: AI/ML Engineer" class="hiring-apply">Apply →</a>
+          <a href="#" class="hiring-apply" data-role="AI/ML Engineer" onclick="openApply(this);return false;">Apply →</a>
         </div>
 
         <div class="hiring-card">
@@ -484,7 +484,7 @@
             <li>Multilingual NLP</li>
             <li>LangChain / LlamaIndex</li>
           </ul>
-          <a href="mailto:developeranis123@gmail.com?subject=Application: LLM Engineer" class="hiring-apply">Apply →</a>
+          <a href="#" class="hiring-apply" data-role="LLM / GenAI Engineer" onclick="openApply(this);return false;">Apply →</a>
         </div>
 
         <div class="hiring-card">
@@ -497,7 +497,7 @@
             <li>WebSockets & real-time UI</li>
             <li>PostgreSQL / Redis</li>
           </ul>
-          <a href="mailto:developeranis123@gmail.com?subject=Application: Full Stack Developer" class="hiring-apply">Apply →</a>
+          <a href="#" class="hiring-apply" data-role="Full Stack Developer" onclick="openApply(this);return false;">Apply →</a>
         </div>
 
       </div>
@@ -506,7 +506,7 @@
   </section>
 
   <!-- CONTACT -->
-  <section class="section" id="contact">
+  <section class="section" id="contact"></section>
     <div class="container contact-wrap">
       <div class="contact-left">
         <p class="section-tag">Strategic Partnership</p>
@@ -577,6 +577,55 @@
       </div>
     </div>
   </footer>
+
+  <!-- APPLY MODAL -->
+  <div class="modal-overlay" id="apply-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <p class="section-tag" id="modal-role-tag">Apply</p>
+      <h2 class="modal-title" id="modal-title">Join the team</h2>
+      <form class="modal-form" id="apply-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="a-name">Full name</label>
+            <input type="text" id="a-name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="a-email">Email</label>
+            <input type="email" id="a-email" placeholder="you@email.com" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="a-phone">Phone</label>
+            <input type="tel" id="a-phone" placeholder="+91 00000 00000" />
+          </div>
+          <div class="form-group">
+            <label for="a-experience">Years of experience</label>
+            <select id="a-experience">
+              <option value="">Select range</option>
+              <option>0–1 years</option>
+              <option>1–3 years</option>
+              <option>3–5 years</option>
+              <option>5–10 years</option>
+              <option>10+ years</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="a-portfolio">Portfolio / GitHub / LinkedIn URL</label>
+          <input type="url" id="a-portfolio" placeholder="https://" />
+        </div>
+        <div class="form-group">
+          <label for="a-cover">Why do you want to build with us?</label>
+          <textarea id="a-cover" rows="4" placeholder="Tell us what excites you about this role and what you'll bring..." required></textarea>
+        </div>
+        <input type="hidden" id="a-role" />
+        <button type="submit" class="btn-primary btn-full" id="apply-submit-btn">Submit application →</button>
+        <p class="form-note" id="apply-form-msg"></p>
+      </form>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="main.js"></script>
