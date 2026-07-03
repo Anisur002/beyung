@@ -41,16 +41,41 @@ document.querySelectorAll(
 });
 
 // ─── Apply Modal ──────────────────────────────────────────────────
-const applyModal    = document.getElementById('apply-modal');
-const applyForm     = document.getElementById('apply-form');
+const applyModal     = document.getElementById('apply-modal');
+const applyForm      = document.getElementById('apply-form');
 const applySubmitBtn = document.getElementById('apply-submit-btn');
-const applyFormMsg  = document.getElementById('apply-form-msg');
+const applyFormMsg   = document.getElementById('apply-form-msg');
+const resumeInput    = document.getElementById('a-resume');
+const fileUploadWrap = document.getElementById('file-upload-wrap');
+const fileUploadText = document.getElementById('file-upload-text');
+const fileError      = document.getElementById('file-error');
+
+// File input UI feedback
+resumeInput.addEventListener('change', () => {
+  const file = resumeInput.files[0];
+  fileError.textContent = '';
+  if (file) {
+    if (file.size > 5 * 1024 * 1024) {
+      fileError.textContent = 'File too large. Max 5MB.';
+      resumeInput.value = '';
+      fileUploadWrap.classList.remove('has-file');
+      fileUploadText.textContent = 'Click to upload or drag & drop';
+      return;
+    }
+    fileUploadWrap.classList.add('has-file');
+    fileUploadText.textContent = '📄 ' + file.name;
+  } else {
+    fileUploadWrap.classList.remove('has-file');
+    fileUploadText.textContent = 'Click to upload or drag & drop';
+  }
+});
 
 function openApply(el) {
   const role = el.getAttribute('data-role');
   document.getElementById('modal-role-tag').textContent = role;
   document.getElementById('modal-title').textContent = 'Apply — ' + role;
   document.getElementById('a-role').value = role;
+  document.getElementById('a-subject').value = 'Job Application — ' + role;
   applyModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -68,43 +93,64 @@ function closeApply() {
   applySubmitBtn.textContent = 'Submit application →';
   applySubmitBtn.disabled = false;
   applySubmitBtn.style.background = '';
+  fileUploadWrap.classList.remove('has-file');
+  fileUploadText.textContent = 'Click to upload or drag & drop';
+  fileError.textContent = '';
 }
 
 applyForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // Validate required fields
+  const name  = document.getElementById('a-name').value.trim();
+  const email = document.getElementById('a-email').value.trim();
+  const cover = document.getElementById('a-cover').value.trim();
+  const file  = resumeInput.files[0];
+
+  if (!name || !email || !cover) {
+    applyFormMsg.textContent = 'Please fill in all required fields.';
+    applyFormMsg.className = 'form-note form-note--error';
+    return;
+  }
+  if (!file) {
+    fileError.textContent = 'Please upload your resume.';
+    return;
+  }
 
   applySubmitBtn.textContent = 'Sending…';
   applySubmitBtn.disabled = true;
   applyFormMsg.textContent = '';
   applyFormMsg.className = 'form-note';
 
-  const templateParams = {
-    name:       document.getElementById('a-name').value,
-    email:      document.getElementById('a-email').value,
-    phone:      document.getElementById('a-phone').value,
-    experience: document.getElementById('a-experience').value,
-    portfolio:  document.getElementById('a-portfolio').value,
-    message:    document.getElementById('a-cover').value,
-    interest:   document.getElementById('a-role').value,
-    org:        'Job Application — ' + document.getElementById('a-role').value,
-  };
+  const formData = new FormData(applyForm);
 
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-    applySubmitBtn.textContent = 'Application sent ✓';
-    applySubmitBtn.style.background = '#059669';
-    applyFormMsg.textContent = "We'll review your application and get back to you soon.";
-    applyFormMsg.classList.add('form-note--success');
-    applyForm.reset();
-    setTimeout(closeApply, 3000);
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      applySubmitBtn.textContent = 'Application sent ✓';
+      applySubmitBtn.style.background = '#059669';
+      applyFormMsg.textContent = "We'll review your application and get back to you soon.";
+      applyFormMsg.className = 'form-note form-note--success';
+      applyForm.reset();
+      setTimeout(closeApply, 3000);
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
   } catch (err) {
-    console.error('EmailJS error:', err);
+    console.error('Submission error:', err);
     applySubmitBtn.textContent = 'Submit application →';
     applySubmitBtn.disabled = false;
-    applyFormMsg.textContent = 'Something went wrong. Email us directly at developeranis123@gmail.com';
-    applyFormMsg.classList.add('form-note--error');
+    applyFormMsg.textContent = 'Something went wrong. Email us at developeranis123@gmail.com';
+    applyFormMsg.className = 'form-note form-note--error';
   }
 });
+
+
 
 const form      = document.getElementById('briefing-form');
 const submitBtn = document.getElementById('submit-btn');

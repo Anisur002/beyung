@@ -586,25 +586,25 @@
       <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
       <p class="section-tag" id="modal-role-tag">Apply</p>
       <h2 class="modal-title" id="modal-title">Join the team</h2>
-      <form class="modal-form" id="apply-form" novalidate>
+      <form class="modal-form" id="apply-form" novalidate enctype="multipart/form-data">
         <div class="form-row">
           <div class="form-group">
             <label for="a-name">Full name</label>
-            <input type="text" id="a-name" placeholder="Your name" required />
+            <input type="text" id="a-name" name="name" placeholder="Your name" required />
           </div>
           <div class="form-group">
             <label for="a-email">Email</label>
-            <input type="email" id="a-email" placeholder="you@email.com" required />
+            <input type="email" id="a-email" name="email" placeholder="you@email.com" required />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="a-phone">Phone</label>
-            <input type="tel" id="a-phone" placeholder="+91 00000 00000" />
+            <input type="tel" id="a-phone" name="phone" placeholder="+91 00000 00000" />
           </div>
           <div class="form-group">
             <label for="a-experience">Years of experience</label>
-            <select id="a-experience">
+            <select id="a-experience" name="experience">
               <option value="">Select range</option>
               <option>0–1 years</option>
               <option>1–3 years</option>
@@ -616,13 +616,27 @@
         </div>
         <div class="form-group">
           <label for="a-portfolio">Portfolio / GitHub / LinkedIn URL</label>
-          <input type="url" id="a-portfolio" placeholder="https://" />
+          <input type="url" id="a-portfolio" name="portfolio" placeholder="https://" />
+        </div>
+        <div class="form-group">
+          <label for="a-resume">Resume / CV <span class="field-hint">(PDF, DOC, DOCX — max 5MB)</span></label>
+          <div class="file-upload-wrap" id="file-upload-wrap">
+            <input type="file" id="a-resume" name="resume" accept=".pdf,.doc,.docx" />
+            <div class="file-upload-ui" id="file-upload-ui">
+              <span class="file-upload-icon">📎</span>
+              <span class="file-upload-text" id="file-upload-text">Click to upload or drag & drop</span>
+            </div>
+          </div>
+          <p class="file-error" id="file-error"></p>
         </div>
         <div class="form-group">
           <label for="a-cover">Why do you want to build with us?</label>
-          <textarea id="a-cover" rows="4" placeholder="Tell us what excites you about this role and what you'll bring..." required></textarea>
+          <textarea id="a-cover" name="message" rows="4" placeholder="Tell us what excites you about this role and what you'll bring..." required></textarea>
         </div>
-        <input type="hidden" id="a-role" />
+        <input type="hidden" id="a-role" name="role" />
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" id="a-subject" value="Job Application" />
+        <input type="hidden" name="from_name" value="Beyung Careers" />
         <button type="submit" class="btn-primary btn-full" id="apply-submit-btn">Submit application →</button>
         <p class="form-note" id="apply-form-msg"></p>
       </form>
