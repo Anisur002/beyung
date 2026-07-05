@@ -32,7 +32,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 
 document.querySelectorAll(
-  '.platform-card, .pillar-card, .tech-card, .roadmap-content, .scenario-card, .contact-left, .contact-form, .tech-layer, .founder-img-wrap, .founder-text, .hiring-card, .leader-card, .leader-box'
+  '.platform-card, .pillar-card, .tech-card, .roadmap-content, .scenario-card, .contact-left, .contact-form, .tech-layer, .founder-img-wrap, .founder-text, .hiring-card, .leader-card, .leader-box, .testi-card'
 ).forEach((el, i) => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(28px)';
